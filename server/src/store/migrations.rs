@@ -456,10 +456,54 @@ mod tests {
             .unwrap();
 
             assert_eq!(checksum_after, checksum_before);
-            assert_eq!(versions, vec![1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            assert_eq!(versions, vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
             assert_eq!(checkpoint_table_exists, 1);
             assert_eq!(argument_error_column_exists, 1);
         }
+    }
+
+    #[tokio::test]
+    async fn removes_the_legacy_installation_identifier_without_touching_other_settings() {
+        let pool = SqlitePoolOptions::new()
+            .max_connections(1)
+            .connect("sqlite::memory:")
+            .await
+            .unwrap();
+        let current = migrator_with_line_endings(MigrationLineEndings::Lf);
+        let before_cleanup = Migrator {
+            migrations: Cow::Owned(current.iter().take(9).cloned().collect()),
+            ..Migrator::DEFAULT
+        };
+        before_cleanup.run(&pool).await.unwrap();
+        sqlx::query(
+            "INSERT INTO service_settings(setting_key, value_json, updated_at_ms) VALUES (?, ?, 0), (?, ?, 0)",
+        )
+        .bind("installation_id")
+        .bind(r#""00000000-0000-4000-8000-000000000000""#)
+        .bind("cursor_tab")
+        .bind(r#"{"mode":"direct","address":""}"#)
+        .execute(&pool)
+        .await
+        .unwrap();
+
+        run(&pool, Path::new("remove-legacy-installation-identifier.db"))
+            .await
+            .unwrap();
+
+        let installation_id: Option<String> = sqlx::query_scalar(
+            "SELECT value_json FROM service_settings WHERE setting_key = 'installation_id'",
+        )
+        .fetch_optional(&pool)
+        .await
+        .unwrap();
+        let tab_settings: String = sqlx::query_scalar(
+            "SELECT value_json FROM service_settings WHERE setting_key = 'cursor_tab'",
+        )
+        .fetch_one(&pool)
+        .await
+        .unwrap();
+        assert!(installation_id.is_none());
+        assert_eq!(tab_settings, r#"{"mode":"direct","address":""}"#);
     }
 
     #[test]
