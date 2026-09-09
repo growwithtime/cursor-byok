@@ -1,11 +1,10 @@
 //! Generates Git commit messages locally for Cursor's SCM action.
 //!
 //! Cursor sends `aiserver.v1.AiService/WriteGitCommitMessage` with the staged
-//! diffs. Empty commit-settings `model_id` keeps the original behaviour and
-//! forwards the RPC unchanged (直连). A configured local model identifier
-//! answers the request locally: truncated diffs + previous commits form the user
-//! message, the customizable commit prompt is the system prompt, and the raw
-//! completion is cleaned before being returned.
+//! diffs. Empty commit-settings `model_id` disables the endpoint locally. A
+//! configured model identifier answers the request locally: truncated diffs +
+//! previous commits form the user message, the customizable commit prompt is
+//! the system prompt, and the raw completion is cleaned before being returned.
 use std::{
     sync::Arc,
     time::{Duration, Instant},
@@ -13,7 +12,7 @@ use std::{
 
 use axum::{
     body::{to_bytes, Body},
-    extract::{Extension, State},
+    extract::State,
     http::{header, HeaderValue, Request, Response, StatusCode},
 };
 use futures_util::StreamExt;
@@ -21,7 +20,6 @@ use prost::Message;
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    api::cursor::proxy::{self, CursorProxy},
     cursor::{
         protocol::{connect, proto::aiserver::v1 as ai},
         transport::TransportRegistry,
@@ -45,26 +43,15 @@ const COMMIT_MAX_OUTPUT_TOKENS: u64 = 30_000;
 
 pub async fn write_git_commit_message(
     State(registry): State<TransportRegistry>,
-    Extension(upstream): Extension<CursorProxy>,
     request: Request<Body>,
 ) -> Result<Response<Body>> {
     let settings = registry.store().commit_settings().await?;
-    if settings.is_direct() {
-        return forward_direct(&registry, upstream, request).await;
+    if settings.is_disabled() {
+        let mut response = Response::new(Body::empty());
+        *response.status_mut() = StatusCode::NO_CONTENT;
+        return Ok(response);
     }
     generate_local(&registry, request, settings).await
-}
-
-async fn forward_direct(
-    registry: &TransportRegistry,
-    upstream: CursorProxy,
-    request: Request<Body>,
-) -> Result<Response<Body>> {
-    let settings = registry.store().tab_settings().await?;
-    match settings.service_url() {
-        Some(service_url) => proxy::forward_to_service(&upstream, request, service_url).await,
-        None => proxy::forward(Extension(upstream), request).await,
-    }
 }
 
 async fn generate_local(
@@ -365,18 +352,18 @@ mod tests {
     use super::*;
 
     #[test]
-    fn empty_model_id_is_direct() {
-        assert!(CommitSettings::default().is_direct());
+    fn empty_model_id_is_disabled() {
+        assert!(CommitSettings::default().is_disabled());
         assert!(CommitSettings {
             model_id: "  ".into(),
             ..CommitSettings::default()
         }
-        .is_direct());
+        .is_disabled());
         assert!(!CommitSettings {
             model_id: "abc".into(),
             ..CommitSettings::default()
         }
-        .is_direct());
+        .is_disabled());
     }
 
     #[test]

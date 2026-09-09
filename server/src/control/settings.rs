@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::store::{
     CommitPromptLocale, CommitSettings, DesktopSettings, PortSettings, ProxySettings,
-    ProxySettingsInput, StatisticsStorage, StatisticsStorageScope, TabSettings,
+    ProxySettingsInput, StatisticsStorage, StatisticsStorageScope,
 };
 
 use super::{ControlService, ObservabilitySettings};
@@ -69,17 +69,6 @@ pub async fn update_proxy(
     Ok(Json(service.set_proxy_settings(settings).await?))
 }
 
-pub async fn get_tab(State(service): State<ControlService>) -> Result<Json<TabSettings>> {
-    Ok(Json(service.tab_settings().await?))
-}
-
-pub async fn update_tab(
-    State(service): State<ControlService>,
-    Json(settings): Json<TabSettings>,
-) -> Result<Json<TabSettings>> {
-    Ok(Json(service.set_tab_settings(settings).await?))
-}
-
 pub async fn get_desktop(State(service): State<ControlService>) -> Result<Json<DesktopSettings>> {
     Ok(Json(service.desktop_settings().await?))
 }
@@ -92,9 +81,9 @@ pub async fn update_desktop(
     get_desktop(State(service)).await
 }
 
-/// Settings view for commit message generation. Empty `model_id` means 直连
-/// (forward the original Cursor RPC). A non-empty value is a configured
-/// built-in or plugin model identifier. Empty `prompt` means "use the built-in default".
+/// Settings view for commit message generation. Empty `model_id` disables the
+/// endpoint. A non-empty value is a configured built-in or plugin model
+/// identifier. Empty `prompt` means "use the built-in default".
 #[derive(Serialize)]
 pub struct CommitSettingsView {
     pub model_id: String,

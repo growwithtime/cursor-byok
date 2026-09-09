@@ -24,7 +24,7 @@ use crate::{
     provider::{is_valid_response_event, ModelEvent, Provider},
     store::{
         CommitSettings, DesktopSettings, PortSettings, ProxySettings, ProxySettingsInput,
-        StatisticsStorage, Store, TabSettings,
+        StatisticsStorage, Store,
     },
     Error, Result,
 };
@@ -652,14 +652,6 @@ impl ControlService {
         let settings = self.store.set_proxy_settings(settings).await?;
         self.clients.invalidate().await;
         Ok(settings)
-    }
-
-    pub async fn tab_settings(&self) -> Result<TabSettings> {
-        self.store.tab_settings().await
-    }
-
-    pub async fn set_tab_settings(&self, settings: TabSettings) -> Result<TabSettings> {
-        self.cursor_harness.set_tab_settings(settings).await
     }
 
     pub async fn desktop_settings(&self) -> Result<DesktopSettings> {

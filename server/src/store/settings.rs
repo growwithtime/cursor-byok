@@ -7,7 +7,6 @@ use super::{now_ms, Store};
 
 const PORT_SETTINGS_KEY: &str = "network_ports";
 const PROXY_SETTINGS_KEY: &str = "outbound_proxy";
-const TAB_SETTINGS_KEY: &str = "cursor_tab";
 const DESKTOP_SETTINGS_KEY: &str = "desktop_lifecycle";
 const COMMIT_SETTINGS_KEY: &str = "commit_settings";
 const CURSOR_TAKEOVER_ENABLED_KEY: &str = "cursor_takeover_enabled";
@@ -15,8 +14,6 @@ const CURSOR_TAKEOVER_ENABLED_KEY: &str = "cursor_takeover_enabled";
 /// Embedded default system prompts for commit message generation.
 pub const DEFAULT_COMMIT_PROMPT_ZH_CN: &str = include_str!("../../prompt/cursor/commit/zh-CN.md");
 pub const DEFAULT_COMMIT_PROMPT_EN_US: &str = include_str!("../../prompt/cursor/commit/en-US.md");
-
-pub const PUBLIC_TAB_SERVICE_URL: &str = "https://tab.leokun.cn";
 
 #[derive(Clone, Copy, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
 pub struct PortSettings {
@@ -36,21 +33,6 @@ impl ProxyMode {
     pub fn is_custom(self) -> bool {
         self == Self::Custom
     }
-}
-
-#[derive(Clone, Copy, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "snake_case")]
-pub enum TabMode {
-    #[default]
-    Public,
-    Direct,
-    Custom,
-}
-
-#[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
-pub struct TabSettings {
-    pub mode: TabMode,
-    pub address: String,
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq, Serialize)]
@@ -74,16 +56,6 @@ fn default_true() -> bool {
     true
 }
 
-impl TabSettings {
-    pub fn service_url(&self) -> Option<&str> {
-        match self.mode {
-            TabMode::Public => Some(PUBLIC_TAB_SERVICE_URL),
-            TabMode::Direct => None,
-            TabMode::Custom => Some(&self.address),
-        }
-    }
-}
-
 #[derive(Clone, Copy, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
 pub enum CommitPromptLocale {
     #[default]
@@ -104,9 +76,9 @@ impl CommitPromptLocale {
 
 /// User preferences for Git commit message generation.
 ///
-/// Empty `model_id` means 直连: forward the original Cursor RPC unchanged.
-/// A non-empty value is the stable identifier of a configured built-in or
-/// plugin model, and the request is generated locally through that model.
+/// Empty `model_id` disables commit message generation. A non-empty value is
+/// the stable identifier of a configured built-in or plugin model, and the
+/// request is generated locally through that model.
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
 pub struct CommitSettings {
     #[serde(default)]
@@ -118,7 +90,7 @@ pub struct CommitSettings {
 }
 
 impl CommitSettings {
-    pub fn is_direct(&self) -> bool {
+    pub fn is_disabled(&self) -> bool {
         self.model_id.trim().is_empty()
     }
 
@@ -262,49 +234,6 @@ impl Store {
             .execute(&self.pool)
             .await?;
         self.proxy_settings().await
-    }
-
-    pub async fn tab_settings(&self) -> Result<TabSettings> {
-        let value = sqlx::query_scalar::<_, String>(
-            "SELECT value_json FROM service_settings WHERE setting_key = ?",
-        )
-        .bind(TAB_SETTINGS_KEY)
-        .fetch_optional(&self.pool)
-        .await?;
-        value
-            .map(|value| serde_json::from_str(&value).map_err(Into::into))
-            .unwrap_or_else(|| Ok(TabSettings::default()))
-    }
-
-    pub async fn set_tab_settings(&self, mut settings: TabSettings) -> Result<TabSettings> {
-        settings.address = settings.address.trim().trim_end_matches('/').to_owned();
-        if settings.mode == TabMode::Custom {
-            let parsed = url::Url::parse(&settings.address).map_err(|error| {
-                crate::Error::Config(format!("invalid TAB service address: {error}"))
-            })?;
-            if !matches!(parsed.scheme(), "http" | "https") {
-                return Err(crate::Error::Config(
-                    "TAB service address must use http or https".into(),
-                ));
-            }
-            if parsed.host_str().is_none()
-                || parsed.query().is_some()
-                || parsed.fragment().is_some()
-            {
-                return Err(crate::Error::Config(
-                    "TAB service address must be a base URL without a query or fragment".into(),
-                ));
-            }
-        }
-        let value_json = serde_json::to_string(&settings)?;
-        let _write = self.writes.lock().await;
-        sqlx::query("INSERT INTO service_settings(setting_key, value_json, updated_at_ms) VALUES (?, ?, ?) ON CONFLICT(setting_key) DO UPDATE SET value_json = excluded.value_json, updated_at_ms = excluded.updated_at_ms")
-            .bind(TAB_SETTINGS_KEY)
-            .bind(value_json)
-            .bind(now_ms())
-            .execute(&self.pool)
-            .await?;
-        Ok(settings)
     }
 
     pub async fn port_settings(&self) -> Result<PortSettings> {

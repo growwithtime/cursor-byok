@@ -126,13 +126,8 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 186,
+          "line": 155,
           "column": 82
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 40,
-          "column": 98
         }
       ]
     },
@@ -367,7 +362,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 95,
+          "line": 88,
           "column": 38
         }
       ]
@@ -396,7 +391,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 279,
+          "line": 247,
           "column": 26
         }
       ]
@@ -730,7 +725,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 283,
+          "line": 251,
           "column": 60
         }
       ]
@@ -756,17 +751,17 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 65,
+          "line": 58,
           "column": 42
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 191,
+          "line": 160,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 218,
+          "line": 187,
           "column": 58
         }
       ]
@@ -865,7 +860,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 257,
+          "line": 225,
           "column": 43
         }
       ]
@@ -889,7 +884,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 120,
+          "line": 113,
           "column": 15
         }
       ]
@@ -913,7 +908,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 306,
+          "line": 274,
           "column": 24
         }
       ]
@@ -1084,18 +1079,13 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 182,
+          "line": 151,
           "column": 81
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 298,
+          "line": 266,
           "column": 22
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 36,
-          "column": 66
         },
         {
           "file": "shared/ui/ConfirmDialog.tsx",
@@ -1180,18 +1170,6 @@
           "file": "features/models/CursorSettingsPage.tsx",
           "line": 405,
           "column": 70
-        }
-      ]
-    },
-    "2f4a9609285d8f49": {
-      "source": "TAB 设置已保存",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/SettingsPage.tsx",
-          "line": 144,
-          "column": 15
         }
       ]
     },
@@ -1340,7 +1318,7 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 242,
+          "line": 210,
           "column": 27
         }
       ]
@@ -1408,7 +1386,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 308,
+          "line": 276,
           "column": 42
         }
       ]
@@ -1473,7 +1451,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 290,
+          "line": 258,
           "column": 14
         }
       ]
@@ -1502,7 +1480,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 242,
+          "line": 210,
           "column": 39
         }
       ]
@@ -1552,25 +1530,13 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 249,
+          "line": 217,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 255,
+          "line": 223,
           "column": 26
-        }
-      ]
-    },
-    "3f6c25aa329163a4": {
-      "source": "原接口路径会追加到此服务地址。",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 68,
-          "column": 21
         }
       ]
     },
@@ -1605,6 +1571,11 @@
           "file": "features/plugins/PluginResourcePanels.tsx",
           "line": 423,
           "column": 82
+        },
+        {
+          "file": "features/settings/CommitSettingsCard.tsx",
+          "line": 57,
+          "column": 63
         }
       ]
     },
@@ -1627,7 +1598,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 159,
+          "line": 128,
           "column": 66
         }
       ]
@@ -1639,7 +1610,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 274,
+          "line": 242,
           "column": 52
         }
       ]
@@ -1808,11 +1779,6 @@
           "file": "features/settings/ProxySettingsCard.tsx",
           "line": 69,
           "column": 135
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 81,
-          "column": 81
         }
       ]
     },
@@ -1985,16 +1951,6 @@
           "file": "features/settings/ProxySettingsCard.tsx",
           "line": 46,
           "column": 166
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 32,
-          "column": 12
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 60,
-          "column": 41
         }
       ]
     },
@@ -2053,18 +2009,6 @@
         }
       ]
     },
-    "5401344227e49e2f": {
-      "source": "TAB 设置",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 44,
-          "column": 90
-        }
-      ]
-    },
     "54644705e9c61009": {
       "source": "端口设置",
       "kind": "text",
@@ -2072,7 +2016,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 180,
+          "line": 149,
           "column": 26
         }
       ]
@@ -2154,7 +2098,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 235,
+          "line": 203,
           "column": 78
         }
       ]
@@ -2171,28 +2115,6 @@
         }
       ]
     },
-    "59346e82b3dd2998": {
-      "source": "TAB 服务地址",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 67,
-          "column": 22
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 73,
-          "column": 25
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 84,
-          "column": 20
-        }
-      ]
-    },
     "5a284a1a2be8da0e": {
       "source": "从本机旧版配置读取模型；确认前会显示新增和已存在的模型。",
       "kind": "text",
@@ -2200,25 +2122,8 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 239,
+          "line": 207,
           "column": 21
-        }
-      ]
-    },
-    "5a3bd99fa69a40c1": {
-      "source": "使用公益服务",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 30,
-          "column": 35
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 58,
-          "column": 41
         }
       ]
     },
@@ -2477,7 +2382,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 510,
+          "line": 503,
           "column": 43
         }
       ]
@@ -2592,7 +2497,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 95,
+          "line": 88,
           "column": 55
         }
       ]
@@ -2756,7 +2661,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 170,
+          "line": 139,
           "column": 16
         }
       ]
@@ -2780,7 +2685,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 266,
+          "line": 234,
           "column": 26
         }
       ]
@@ -2804,7 +2709,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 505,
+          "line": 498,
           "column": 43
         }
       ]
@@ -2828,7 +2733,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 299,
+          "line": 267,
           "column": 23
         }
       ]
@@ -2873,18 +2778,6 @@
           "file": "App.tsx",
           "line": 62,
           "column": 21
-        }
-      ]
-    },
-    "7e0891860c9e6374": {
-      "source": "TAB 服务地址不能为空",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/SettingsPage.tsx",
-          "line": 138,
-          "column": 83
         }
       ]
     },
@@ -2958,7 +2851,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 449,
+          "line": 442,
           "column": 21
         }
       ]
@@ -3203,7 +3096,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 238,
+          "line": 206,
           "column": 22
         }
       ]
@@ -3246,18 +3139,6 @@
           "file": "features/plugins/PluginResourcePanels.tsx",
           "line": 134,
           "column": 19
-        }
-      ]
-    },
-    "8f9b0d6cc477d334": {
-      "source": "控制 Cursor TAB 相关接口的连接方式。",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 52,
-          "column": 21
         }
       ]
     },
@@ -3318,7 +3199,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 162,
+          "line": 131,
           "column": 7
         }
       ]
@@ -3398,28 +3279,6 @@
         {
           "file": "features/plugins/PluginResourcePanels.tsx",
           "line": 274,
-          "column": 20
-        }
-      ]
-    },
-    "966498853d801a52": {
-      "source": "TAB 选择",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 51,
-          "column": 22
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 56,
-          "column": 24
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 80,
           "column": 20
         }
       ]
@@ -3642,7 +3501,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 246,
+          "line": 214,
           "column": 26
         }
       ]
@@ -3678,7 +3537,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 58,
+          "line": 51,
           "column": 34
         }
       ]
@@ -3770,13 +3629,8 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 183,
+          "line": 152,
           "column": 133
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 37,
-          "column": 103
         },
         {
           "file": "shared/ui/Modal.tsx",
@@ -4130,28 +3984,6 @@
         }
       ]
     },
-    "b06325c5660f0c29": {
-      "source": "直连",
-      "kind": "text",
-      "placeholders": [],
-      "refs": [
-        {
-          "file": "features/settings/CommitSettingsCard.tsx",
-          "line": 57,
-          "column": 63
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 31,
-          "column": 35
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 59,
-          "column": 41
-        }
-      ]
-    },
     "b16c3b2ecedd6fe1": {
       "source": "Cursor 接管已生效；添加模型配置后即可使用 BYOK 模型。",
       "kind": "text",
@@ -4282,7 +4114,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 159,
+          "line": 128,
           "column": 45
         }
       ]
@@ -4308,7 +4140,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 282,
+          "line": 250,
           "column": 22
         }
       ]
@@ -4446,7 +4278,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 274,
+          "line": 242,
           "column": 40
         }
       ]
@@ -4720,12 +4552,12 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 168,
+          "line": 137,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 174,
+          "line": 143,
           "column": 20
         }
       ]
@@ -4737,7 +4569,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 205,
+          "line": 174,
           "column": 21
         }
       ]
@@ -4773,7 +4605,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 161,
+          "line": 130,
           "column": 7
         }
       ]
@@ -5141,7 +4973,7 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 318,
+          "line": 286,
           "column": 30
         },
         {
@@ -5393,7 +5225,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 71,
+          "line": 64,
           "column": 17
         }
       ]
@@ -5487,7 +5319,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 165,
+          "line": 134,
           "column": 26
         }
       ]
@@ -5600,7 +5432,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 224,
+          "line": 193,
           "column": 16
         }
       ]
@@ -5732,7 +5564,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 250,
+          "line": 218,
           "column": 21
         }
       ]
@@ -5818,7 +5650,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 192,
+          "line": 161,
           "column": 21
         }
       ]
@@ -6004,7 +5836,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 309,
+          "line": 277,
           "column": 38
         }
       ]
@@ -6026,13 +5858,8 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 183,
+          "line": 152,
           "column": 121
-        },
-        {
-          "file": "features/settings/TabSettingsCard.tsx",
-          "line": 37,
-          "column": 91
         }
       ]
     },
@@ -6055,17 +5882,17 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 66,
+          "line": 59,
           "column": 46
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 204,
+          "line": 173,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 219,
+          "line": 188,
           "column": 58
         }
       ]

@@ -138,13 +138,6 @@ export interface ProxySettingsInput {
   password?: string;
 }
 
-export type TabMode = "public" | "direct" | "custom";
-
-export interface TabSettings {
-  mode: TabMode;
-  address: string;
-}
-
 export interface DesktopSettings {
   silent_start: boolean;
   show_dock_icon: boolean;
@@ -528,8 +521,6 @@ export const api = {
   clearStatisticsStorage: (scope: StatisticsStorageScope) => request<StatisticsStorage>("/settings/storage/statistics", { method: "DELETE", body: JSON.stringify({ scope }) }),
   proxySettings: () => request<ProxySettings>("/settings/proxy"),
   setProxySettings: (settings: ProxySettingsInput) => request<ProxySettings>("/settings/proxy", { method: "PUT", body: JSON.stringify(settings) }),
-  tabSettings: () => request<TabSettings>("/settings/tab"),
-  setTabSettings: (settings: TabSettings) => request<TabSettings>("/settings/tab", { method: "PUT", body: JSON.stringify(settings) }),
   desktopSettings: () => request<DesktopSettings>("/settings/desktop"),
   setDesktopSettings: (settings: DesktopSettings) => request<DesktopSettings>("/settings/desktop", { method: "PUT", body: JSON.stringify(settings) }),
   commitSettings: (locale: Locale) => request<CommitSettingsView>("/settings/commit", { headers: { "accept-language": locale } }),

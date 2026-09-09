@@ -91,6 +91,18 @@ fn diff_request(diff: &str) -> ai::WriteGitCommitMessageRequest {
 }
 
 #[tokio::test]
+async fn commit_message_is_disabled_by_default() {
+    let (_directory, store) = fixtures::temp_store().await;
+    let provider = fake_provider::FakeProvider::default();
+    let router = commit_router(store, provider.clone()).await;
+
+    let response = post_commit_message(router, diff_request("diff --git a/private.rs")).await;
+
+    assert_eq!(response.status(), StatusCode::NO_CONTENT);
+    assert!(provider.requests().is_empty());
+}
+
+#[tokio::test]
 async fn commit_message_is_generated_through_configured_model() {
     let (_directory, store) = fixtures::temp_store().await;
     let created = store

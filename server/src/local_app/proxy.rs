@@ -1,5 +1,5 @@
 //! Configures the local application proxy.
-use std::{net::SocketAddr, sync::Arc};
+use std::net::SocketAddr;
 
 use hudsucker::{
     certificate_authority::RcgenAuthority,
@@ -9,12 +9,7 @@ use hudsucker::{
 };
 use tokio::{net::TcpListener, sync::oneshot, task::JoinHandle};
 
-use parking_lot::RwLock;
-
-use crate::{
-    api::cursor::proxy::UPSTREAM_URL_HEADER, cursor::services::tab::is_tab_path, store::TabMode,
-    Error, Result,
-};
+use crate::{api::cursor::proxy::UPSTREAM_URL_HEADER, Error, Result};
 
 use super::ca::LoadedCa;
 
@@ -46,7 +41,6 @@ impl ProxyRuntime {
         backend: SocketAddr,
         ca: LoadedCa,
         requested_port: u16,
-        tab_mode: Arc<RwLock<TabMode>>,
     ) -> Result<(String, u16)> {
         if let Some(url) = self.url() {
             return Ok((url, self.port.unwrap_or_default()));
@@ -59,7 +53,7 @@ impl ProxyRuntime {
             .with_listener(listener)
             .with_ca(authority)
             .with_rustls_connector(aws_lc_rs::default_provider())
-            .with_http_handler(CursorRelay { backend, tab_mode })
+            .with_http_handler(CursorRelay { backend })
             .with_graceful_shutdown(async move {
                 let _ = done.await;
             })
@@ -103,7 +97,6 @@ async fn bind_proxy_listener(requested_port: u16) -> Result<TcpListener> {
 #[derive(Clone)]
 struct CursorRelay {
     backend: SocketAddr,
-    tab_mode: Arc<RwLock<TabMode>>,
 }
 
 impl HttpHandler for CursorRelay {
@@ -113,7 +106,7 @@ impl HttpHandler for CursorRelay {
         mut request: Request<Body>,
     ) -> RequestOrResponse {
         let original = request.uri().clone();
-        let locally_routed = should_route_locally(original.path(), *self.tab_mode.read());
+        let locally_routed = is_local_path(original.path());
         if is_cursor_host(original.host().unwrap_or_default()) && locally_routed {
             if let Ok(value) = original.to_string().parse() {
                 request.headers_mut().insert(UPSTREAM_URL_HEADER, value);
@@ -191,10 +184,6 @@ fn is_local_path(path: &str) -> bool {
     )
 }
 
-fn should_route_locally(path: &str, tab_mode: TabMode) -> bool {
-    is_local_path(path) || (is_tab_path(path) && tab_mode != TabMode::Direct)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -217,6 +206,30 @@ mod tests {
             "/auth/stripe_profile",
         ] {
             assert!(is_local_path(path), "{path} must not reach Cursor upstream");
+        }
+    }
+
+    #[test]
+    fn tab_and_file_sync_routes_pass_through_to_cursor() {
+        for path in [
+            "/aiserver.v1.AiService/StreamCpp",
+            "/aiserver.v1.AiService/StreamNextCursorPrediction",
+            "/aiserver.v1.AiService/GetCppEditClassification",
+            "/aiserver.v1.AiService/RefreshTabContext",
+            "/aiserver.v1.AiService/CppConfig",
+            "/aiserver.v1.AiService/CppEditHistoryStatus",
+            "/aiserver.v1.AiService/CppAppend",
+            "/aiserver.v1.AiService/CppEditHistoryAppend",
+            "/aiserver.v1.AiService/ReportAiCodeChangeMetrics",
+            "/aiserver.v1.AiService/WriteGitBranchName",
+            "/aiserver.v1.CppService/AvailableModels",
+            "/aiserver.v1.CppService/RecordCppFate",
+            "/aiserver.v1.FileSyncService/FSSyncFile",
+            "/aiserver.v1.FileSyncService/FSIsEnabledForUser",
+            "/aiserver.v1.FileSyncService/FSConfig",
+            "/aiserver.v1.FileSyncService/FSUploadFile",
+        ] {
+            assert!(!is_local_path(path), "{path} must pass through to Cursor");
         }
     }
 }

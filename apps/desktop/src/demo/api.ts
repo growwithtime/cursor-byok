@@ -7,7 +7,6 @@ import type {
   OverviewTokenUsageBucket,
   ProxySettings,
   StatisticsStorage,
-  TabSettings,
 } from "../shared/api";
 
 const API_ROOT = "/__byok-api__/api";
@@ -93,7 +92,6 @@ let proxySettings: ProxySettings = {
   username: "",
   has_password: false,
 };
-let tabSettings: TabSettings = { mode: "public", address: "" };
 let storage: StatisticsStorage = { bytes: 26_004_480, call_count: calls.length, trace_count: calls.length };
 
 export function installDemoApi() {
@@ -160,11 +158,6 @@ export function installDemoApi() {
       const next = body as Partial<ProxySettings>;
       proxySettings = { ...proxySettings, ...next, has_password: Boolean(next.has_password) };
       return json(proxySettings);
-    }
-    if (path === "/settings/tab" && method === "GET") return json(tabSettings);
-    if (path === "/settings/tab") {
-      tabSettings = body as TabSettings;
-      return json(tabSettings);
     }
     if (path === "/settings/desktop" && method === "GET") return json({ silent_start: false, show_dock_icon: true });
     if (path === "/settings/desktop") return json(body);

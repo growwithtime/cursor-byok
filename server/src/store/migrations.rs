@@ -480,8 +480,8 @@ mod tests {
         )
         .bind("installation_id")
         .bind(r#""00000000-0000-4000-8000-000000000000""#)
-        .bind("cursor_tab")
-        .bind(r#"{"mode":"direct","address":""}"#)
+        .bind("desktop_lifecycle")
+        .bind(r#"{"silent_start":false,"show_dock_icon":true}"#)
         .execute(&pool)
         .await
         .unwrap();
@@ -496,14 +496,17 @@ mod tests {
         .fetch_optional(&pool)
         .await
         .unwrap();
-        let tab_settings: String = sqlx::query_scalar(
-            "SELECT value_json FROM service_settings WHERE setting_key = 'cursor_tab'",
+        let desktop_settings: String = sqlx::query_scalar(
+            "SELECT value_json FROM service_settings WHERE setting_key = 'desktop_lifecycle'",
         )
         .fetch_one(&pool)
         .await
         .unwrap();
         assert!(installation_id.is_none());
-        assert_eq!(tab_settings, r#"{"mode":"direct","address":""}"#);
+        assert_eq!(
+            desktop_settings,
+            r#"{"silent_start":false,"show_dock_icon":true}"#
+        );
     }
 
     #[test]
