@@ -14,8 +14,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  repository-policy:
+    name: Repository policy
+    runs-on: ubuntu-22.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check repository policy
+        run: node .github/scripts/check-repository-policy.mjs
+
   rust:
     name: Rust (Linux)
+    needs: repository-policy
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +61,7 @@ jobs:
 
   frontend:
     name: Frontend
+    needs: repository-policy
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -66,6 +82,7 @@ jobs:
 
   desktop-rust:
     name: Desktop Rust (${{ matrix.os }})
+    needs: repository-policy
     strategy:
       fail-fast: false
       matrix:
