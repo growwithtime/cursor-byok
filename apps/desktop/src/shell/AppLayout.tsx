@@ -14,7 +14,6 @@ import { flatColorAboutIcon, flatColorAreaChartIcon, flatColorCrystalOscillatorI
 import { useMessage } from "../shared/ui/message";
 import { VirtualList } from "../shared/virtual/VirtualList";
 import { appStore, useAppStore } from "../shared/store/appStore";
-import { useUpdateStore } from "../shared/store/updateStore";
 import styles from "./AppLayout.module.scss";
 import { PageActionsTarget } from "./PageActions";
 
@@ -29,7 +28,6 @@ const tutorialUrl = "https://docs.leokun.cn";
 
 export function AppLayout() {
   const { busy, cursorHarness } = useAppStore();
-  const { availableVersion } = useUpdateStore();
   const message = useMessage();
   const location = useLocation();
   const [leftActionTarget, setLeftActionTarget] = useState<HTMLDivElement | null>(null);
@@ -105,7 +103,6 @@ export function AppLayout() {
               >
                 {cursorHarness.settings_applied ? t("已接管") : t("未接管")}
               </span>}
-              {item.path === "/settings" && availableVersion && <span className={styles.menuIndicatorDot} aria-hidden="true" />}
             </NavLink>
           </div>}
         </VirtualList>
