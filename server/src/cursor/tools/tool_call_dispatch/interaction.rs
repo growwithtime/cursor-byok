@@ -39,7 +39,7 @@ pub(super) async fn resume(
             ))
         )
     {
-        start_web_search(results.clone(), search.clone(), pending)?;
+        super::web_search::execute(results.clone(), search.clone(), pending, true)?;
         return Ok(InteractionContinuation::Pending);
     }
     if normalized(&pending.call.name) == "webfetch"
@@ -76,37 +76,6 @@ fn start_web_fetch(
     tokio::spawn(async move {
         let outcome = fetch.fetch(&url).await.map_err(|error| error.to_string());
         match result::complete_web_fetch(pending, outcome) {
-            Ok(completion) => results.send(completion),
-            Err(error) => results.send_error(error),
-        }
-    });
-    Ok(())
-}
-
-fn start_web_search(
-    results: ToolResultSender,
-    search: WebSearch,
-    pending: PendingInteraction,
-) -> Result<()> {
-    // Claude Code 习惯的 query 作为 search_term 的别名兼容。
-    let query = ["search_term", "query"]
-        .iter()
-        .find_map(|name| {
-            pending
-                .call
-                .arguments
-                .get(name)
-                .and_then(serde_json::Value::as_str)
-                .filter(|value| !value.trim().is_empty())
-        })
-        .ok_or_else(|| Error::Protocol("WebSearch is missing search_term".into()))?
-        .to_string();
-    tokio::spawn(async move {
-        let outcome = search
-            .search(&query)
-            .await
-            .map_err(|error| error.to_string());
-        match result::complete_web_search(pending, outcome) {
             Ok(completion) => results.send(completion),
             Err(error) => results.send_error(error),
         }

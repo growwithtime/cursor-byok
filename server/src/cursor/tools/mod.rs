@@ -203,6 +203,7 @@ impl ToolDispatcher {
             message_index,
             dynamic_mcp,
             context,
+            &self.search,
             self.store.as_ref(),
         )
         .await?;

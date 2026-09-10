@@ -10,6 +10,7 @@ const PROXY_SETTINGS_KEY: &str = "outbound_proxy";
 const DESKTOP_SETTINGS_KEY: &str = "desktop_lifecycle";
 const COMMIT_SETTINGS_KEY: &str = "commit_settings";
 const CURSOR_TAKEOVER_ENABLED_KEY: &str = "cursor_takeover_enabled";
+const WEB_SEARCH_SETTINGS_KEY: &str = "web_search";
 
 /// Embedded default system prompts for commit message generation.
 pub const DEFAULT_COMMIT_PROMPT_ZH_CN: &str = include_str!("../../prompt/cursor/commit/zh-CN.md");
@@ -54,6 +55,42 @@ impl Default for DesktopSettings {
 
 fn default_true() -> bool {
     true
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq, Serialize)]
+pub(crate) struct WebSearchSettingsSecret {
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    #[serde(default)]
+    pub require_confirmation: bool,
+    #[serde(default)]
+    pub api_key: String,
+}
+
+impl Default for WebSearchSettingsSecret {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            require_confirmation: false,
+            api_key: String::new(),
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub struct WebSearchSettings {
+    pub enabled: bool,
+    pub require_confirmation: bool,
+    pub has_api_key: bool,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq)]
+pub struct WebSearchSettingsInput {
+    pub enabled: bool,
+    pub require_confirmation: bool,
+    pub api_key: Option<String>,
+    #[serde(default)]
+    pub clear_api_key: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default, Deserialize, PartialEq, Eq, Serialize)]
@@ -147,7 +184,82 @@ fn read_proxy_settings(value: &str) -> ProxySettingsSecret {
     })
 }
 
+fn read_web_search_settings(value: &str) -> WebSearchSettingsSecret {
+    serde_json::from_str(value).unwrap_or_else(|error| {
+        tracing::warn!(%error, "ignoring unreadable web search settings");
+        WebSearchSettingsSecret::default()
+    })
+}
+
 impl Store {
+    pub(crate) async fn web_search_settings_secret(&self) -> Result<WebSearchSettingsSecret> {
+        let value = sqlx::query_scalar::<_, String>(
+            "SELECT value_json FROM service_settings WHERE setting_key = ?",
+        )
+        .bind(WEB_SEARCH_SETTINGS_KEY)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(value.as_deref().map_or_else(
+            WebSearchSettingsSecret::default,
+            read_web_search_settings,
+        ))
+    }
+
+    pub async fn web_search_settings(&self) -> Result<WebSearchSettings> {
+        let settings = self.web_search_settings_secret().await?;
+        Ok(WebSearchSettings {
+            enabled: settings.enabled,
+            require_confirmation: settings.require_confirmation,
+            has_api_key: !settings.api_key.is_empty(),
+        })
+    }
+
+    pub async fn set_web_search_settings(
+        &self,
+        input: WebSearchSettingsInput,
+    ) -> Result<WebSearchSettings> {
+        if input.clear_api_key
+            && input
+                .api_key
+                .as_deref()
+                .is_some_and(|value| !value.trim().is_empty())
+        {
+            return Err(crate::Error::Config(
+                "cannot set and clear the Exa API key at the same time".into(),
+            ));
+        }
+        let _write = self.writes.lock().await;
+        let existing = self.web_search_settings_secret().await?;
+        let api_key = if input.clear_api_key {
+            String::new()
+        } else {
+            input
+                .api_key
+                .map(|value| value.trim().to_owned())
+                .filter(|value| !value.is_empty())
+                .unwrap_or(existing.api_key)
+        };
+        let settings = WebSearchSettingsSecret {
+            enabled: input.enabled,
+            require_confirmation: input.require_confirmation,
+            api_key,
+        };
+        let value_json = serde_json::to_string(&settings)?;
+        sqlx::query(
+            "INSERT INTO service_settings(setting_key, value_json, updated_at_ms) VALUES (?, ?, ?) ON CONFLICT(setting_key) DO UPDATE SET value_json = excluded.value_json, updated_at_ms = excluded.updated_at_ms",
+        )
+        .bind(WEB_SEARCH_SETTINGS_KEY)
+        .bind(value_json)
+        .bind(now_ms())
+        .execute(&self.pool)
+        .await?;
+        Ok(WebSearchSettings {
+            enabled: settings.enabled,
+            require_confirmation: settings.require_confirmation,
+            has_api_key: !settings.api_key.is_empty(),
+        })
+    }
+
     pub(crate) async fn cursor_takeover_enabled(&self) -> Result<bool> {
         let value = sqlx::query_scalar::<_, String>(
             "SELECT value_json FROM service_settings WHERE setting_key = ?",
@@ -336,8 +448,8 @@ impl Store {
 mod tests {
     use super::{
         read_proxy_settings, CommitPromptLocale, CommitSettings, ProxyMode, ProxySettingsInput,
-        ProxySettingsSecret, Store, DEFAULT_COMMIT_PROMPT_EN_US, DEFAULT_COMMIT_PROMPT_ZH_CN,
-        PROXY_SETTINGS_KEY,
+        ProxySettingsSecret, Store, WebSearchSettingsInput, DEFAULT_COMMIT_PROMPT_EN_US,
+        DEFAULT_COMMIT_PROMPT_ZH_CN, PROXY_SETTINGS_KEY,
     };
 
     /// The `outbound_proxy` row exactly as builds before the `system` -> `default`
@@ -428,5 +540,81 @@ mod tests {
             .unwrap();
         assert_eq!(saved.mode, ProxyMode::Custom);
         assert_eq!(saved.address, "http://127.0.0.1:7890");
+    }
+
+    #[tokio::test]
+    async fn web_search_defaults_on_and_keeps_its_api_key_secret() {
+        let directory = tempfile::tempdir().unwrap();
+        let url = format!("sqlite://{}", directory.path().join("test.db").display());
+        let store = Store::connect(&url).await.unwrap();
+
+        let defaults = store.web_search_settings().await.unwrap();
+        assert!(defaults.enabled);
+        assert!(!defaults.require_confirmation);
+        assert!(!defaults.has_api_key);
+
+        let saved = store
+            .set_web_search_settings(WebSearchSettingsInput {
+                enabled: true,
+                require_confirmation: true,
+                api_key: Some("exa-secret".into()),
+                clear_api_key: false,
+            })
+            .await
+            .unwrap();
+        assert!(saved.enabled);
+        assert!(saved.require_confirmation);
+        assert!(saved.has_api_key);
+        assert_eq!(
+            serde_json::to_value(saved).unwrap(),
+            serde_json::json!({
+                "enabled": true,
+                "require_confirmation": true,
+                "has_api_key": true
+            })
+        );
+
+        let secret = store.web_search_settings_secret().await.unwrap();
+        assert_eq!(secret.api_key, "exa-secret");
+
+        store
+            .set_web_search_settings(WebSearchSettingsInput {
+                enabled: true,
+                require_confirmation: false,
+                api_key: None,
+                clear_api_key: false,
+            })
+            .await
+            .unwrap();
+        assert_eq!(
+            store.web_search_settings_secret().await.unwrap().api_key,
+            "exa-secret"
+        );
+
+        store
+            .set_web_search_settings(WebSearchSettingsInput {
+                enabled: true,
+                require_confirmation: false,
+                api_key: Some("replacement-secret".into()),
+                clear_api_key: false,
+            })
+            .await
+            .unwrap();
+        assert_eq!(
+            store.web_search_settings_secret().await.unwrap().api_key,
+            "replacement-secret"
+        );
+
+        let cleared = store
+            .set_web_search_settings(WebSearchSettingsInput {
+                enabled: false,
+                require_confirmation: false,
+                api_key: None,
+                clear_api_key: true,
+            })
+            .await
+            .unwrap();
+        assert!(!cleared.enabled);
+        assert!(!cleared.has_api_key);
     }
 }

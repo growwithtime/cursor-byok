@@ -4,6 +4,7 @@ mod exec;
 mod interaction;
 mod local;
 mod search;
+mod web_search;
 
 use std::collections::BTreeMap;
 
@@ -38,6 +39,7 @@ pub(super) async fn start(
     message_index: usize,
     dynamic_mcp: &BTreeMap<String, pb::McpToolDefinition>,
     context: &ExecContext,
+    web_search: &WebSearch,
     store: Option<&Store>,
 ) -> Result<ToolStart> {
     if let Some(definition) = dynamic_mcp.get(&call.name) {
@@ -61,8 +63,20 @@ pub(super) async fn start(
             exec::start(runtime, call, context).await
         }
         "write" | "strreplace" | "editnotebook" => edit::start(runtime, call, context).await,
-        "askquestion" | "websearch" | "webfetch" | "switchmode" | "createplan"
-        | "generateimage" => interaction::start(runtime, call).await,
+        "websearch" => {
+            if web_search
+                .requires_confirmation()
+                .await
+                .map_err(|error| Error::Provider(error.to_string()))?
+            {
+                interaction::start(runtime, call).await
+            } else {
+                web_search::start(results, web_search, call)
+            }
+        }
+        "askquestion" | "webfetch" | "switchmode" | "createplan" | "generateimage" => {
+            interaction::start(runtime, call).await
+        }
         "todowrite" | "updatecurrentstep" => local::start(call, message_index),
         "semblesearch" | "semblefindrelated" => search::start(results, call, store.cloned()),
         _ => Ok(unavailable_tool(call)),

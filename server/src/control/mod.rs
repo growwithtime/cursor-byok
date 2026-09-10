@@ -195,6 +195,10 @@ pub fn api_router(service: ControlService) -> Router {
             get(settings::get_proxy).put(settings::update_proxy),
         )
         .route(
+            "/__byok-api__/api/settings/web-search",
+            get(settings::get_web_search).put(settings::update_web_search),
+        )
+        .route(
             "/__byok-api__/api/settings/desktop",
             get(settings::get_desktop).put(settings::update_desktop),
         )

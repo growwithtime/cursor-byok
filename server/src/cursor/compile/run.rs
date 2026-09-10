@@ -162,6 +162,10 @@ pub(crate) async fn prepare(
     if subagents_disabled {
         checkpoint_prompt.tools.retain(|tool| tool.name != "Task");
     }
+    apply_web_search_setting(
+        &mut checkpoint_prompt,
+        store.web_search_settings().await?.enabled,
+    );
     let prompt = if compacting {
         compiler.prompt_spec(Mode::Compaction, &model, &[], false)?
     } else {
@@ -368,6 +372,12 @@ fn runtime_message_text(message: &CanonicalMessage) -> Result<String> {
         ));
     };
     Ok(text.clone())
+}
+
+fn apply_web_search_setting(prompt: &mut PromptSpec, enabled: bool) {
+    if !enabled {
+        prompt.tools.retain(|tool| tool.name != "WebSearch");
+    }
 }
 
 fn validate_prompt_root(messages: &[CanonicalMessage]) -> Result<()> {
@@ -610,5 +620,52 @@ fn exec_context(
             .unwrap_or_default(),
         admin_command_denylist: request_context.admin_command_denylist.clone(),
         mcp_routes: context::meta_mcp_routes(request_context),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::ToolDefinition;
+
+    fn tool(name: &str) -> ToolDefinition {
+        ToolDefinition {
+            name: name.into(),
+            description: String::new(),
+            parameters: serde_json::json!({"type": "object"}),
+        }
+    }
+
+    #[test]
+    fn disabling_web_search_removes_only_that_stable_tool() {
+        let mut prompt = PromptSpec {
+            instructions: "stable".into(),
+            tools: vec![tool("Read"), tool("WebSearch"), tool("Write")],
+        };
+
+        apply_web_search_setting(&mut prompt, false);
+
+        assert_eq!(prompt.instructions, "stable");
+        assert_eq!(
+            prompt
+                .tools
+                .iter()
+                .map(|tool| tool.name.as_str())
+                .collect::<Vec<_>>(),
+            vec!["Read", "Write"]
+        );
+    }
+
+    #[test]
+    fn enabled_web_search_preserves_the_tool_prefix_byte_for_byte() {
+        let mut prompt = PromptSpec {
+            instructions: "stable".into(),
+            tools: vec![tool("Read"), tool("WebSearch"), tool("Write")],
+        };
+        let before = serde_json::to_value(&prompt.tools).unwrap();
+
+        apply_web_search_setting(&mut prompt, true);
+
+        assert_eq!(serde_json::to_value(&prompt.tools).unwrap(), before);
     }
 }

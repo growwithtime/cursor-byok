@@ -1,0 +1,71 @@
+@use "../../styles/typography" as type;
+
+.content {
+  display: grid;
+}
+
+.description {
+  margin: 0;
+  padding: 14px 16px;
+  color: var(--vscode-descriptionForeground);
+  font-size: type.$font-size-xs;
+}
+
+.row {
+  min-width: 0;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px;
+  border-top: 1px solid var(--vscode-widget-border);
+
+  > div:first-child {
+    display: grid;
+    gap: 5px;
+  }
+
+  small {
+    color: var(--vscode-descriptionForeground);
+    font-size: type.$font-size-xs;
+  }
+}
+
+.value {
+  color: var(--vscode-descriptionForeground);
+  text-align: right;
+}
+
+.keyEditor {
+  width: min(360px, 58%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.textButton {
+  padding: 4px;
+  color: var(--vscode-textLink-foreground);
+  background: transparent;
+  border: 0;
+
+  &:hover { color: var(--vscode-textLink-activeForeground); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+@media (max-width: 680px) {
+  .row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .value { text-align: left; }
+  .keyEditor { width: 100%; }
+}

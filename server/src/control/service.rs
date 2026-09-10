@@ -24,7 +24,7 @@ use crate::{
     provider::{is_valid_response_event, ModelEvent, Provider},
     store::{
         CommitSettings, DesktopSettings, PortSettings, ProxySettings, ProxySettingsInput,
-        StatisticsStorage, Store,
+        StatisticsStorage, Store, WebSearchSettings, WebSearchSettingsInput,
     },
     Error, Result,
 };
@@ -652,6 +652,17 @@ impl ControlService {
         let settings = self.store.set_proxy_settings(settings).await?;
         self.clients.invalidate().await;
         Ok(settings)
+    }
+
+    pub async fn web_search_settings(&self) -> Result<WebSearchSettings> {
+        self.store.web_search_settings().await
+    }
+
+    pub async fn set_web_search_settings(
+        &self,
+        settings: WebSearchSettingsInput,
+    ) -> Result<WebSearchSettings> {
+        self.store.set_web_search_settings(settings).await
     }
 
     pub async fn desktop_settings(&self) -> Result<DesktopSettings> {

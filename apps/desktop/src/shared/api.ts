@@ -138,6 +138,19 @@ export interface ProxySettingsInput {
   password?: string;
 }
 
+export interface WebSearchSettings {
+  enabled: boolean;
+  require_confirmation: boolean;
+  has_api_key: boolean;
+}
+
+export interface WebSearchSettingsInput {
+  enabled: boolean;
+  require_confirmation: boolean;
+  api_key?: string;
+  clear_api_key: boolean;
+}
+
 export interface DesktopSettings {
   silent_start: boolean;
   show_dock_icon: boolean;
@@ -521,6 +534,8 @@ export const api = {
   clearStatisticsStorage: (scope: StatisticsStorageScope) => request<StatisticsStorage>("/settings/storage/statistics", { method: "DELETE", body: JSON.stringify({ scope }) }),
   proxySettings: () => request<ProxySettings>("/settings/proxy"),
   setProxySettings: (settings: ProxySettingsInput) => request<ProxySettings>("/settings/proxy", { method: "PUT", body: JSON.stringify(settings) }),
+  webSearchSettings: () => request<WebSearchSettings>("/settings/web-search"),
+  setWebSearchSettings: (settings: WebSearchSettingsInput) => request<WebSearchSettings>("/settings/web-search", { method: "PUT", body: JSON.stringify(settings) }),
   desktopSettings: () => request<DesktopSettings>("/settings/desktop"),
   setDesktopSettings: (settings: DesktopSettings) => request<DesktopSettings>("/settings/desktop", { method: "PUT", body: JSON.stringify(settings) }),
   commitSettings: (locale: Locale) => request<CommitSettingsView>("/settings/commit", { headers: { "accept-language": locale } }),

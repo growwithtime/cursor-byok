@@ -83,6 +83,18 @@
         }
       ]
     },
+    "02945891f491d0dc": {
+      "source": "清除密钥",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 59,
+          "column": 48
+        }
+      ]
+    },
     "03ff62ab4b818492": {
       "source": "缓存写入：{tokens} × ${price}/1M = {cost}",
       "kind": "template",
@@ -126,8 +138,13 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 155,
+          "line": 188,
           "column": 82
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 26,
+          "column": 96
         }
       ]
     },
@@ -362,7 +379,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 88,
+          "line": 95,
           "column": 38
         }
       ]
@@ -391,7 +408,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 247,
+          "line": 281,
           "column": 26
         }
       ]
@@ -725,7 +742,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 251,
+          "line": 285,
           "column": 60
         }
       ]
@@ -751,17 +768,17 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 58,
+          "line": 65,
           "column": 42
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 160,
+          "line": 193,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 187,
+          "line": 220,
           "column": 58
         }
       ]
@@ -860,7 +877,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 225,
+          "line": 259,
           "column": 43
         }
       ]
@@ -884,7 +901,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 113,
+          "line": 120,
           "column": 15
         }
       ]
@@ -908,7 +925,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 274,
+          "line": 308,
           "column": 24
         }
       ]
@@ -1079,13 +1096,18 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 151,
+          "line": 184,
           "column": 81
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 266,
+          "line": 300,
           "column": 22
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 20,
+          "column": 66
         },
         {
           "file": "shared/ui/ConfirmDialog.tsx",
@@ -1127,6 +1149,18 @@
           "file": "features/home/metrics/HomeMetrics.tsx",
           "line": 86,
           "column": 5
+        }
+      ]
+    },
+    "2e0aaf13edf3fc2f": {
+      "source": "留空表示保留当前密钥",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 52,
+          "column": 74
         }
       ]
     },
@@ -1318,7 +1352,7 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 210,
+          "line": 244,
           "column": 27
         }
       ]
@@ -1386,7 +1420,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 276,
+          "line": 310,
           "column": 42
         }
       ]
@@ -1451,7 +1485,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 258,
+          "line": 292,
           "column": 14
         }
       ]
@@ -1480,7 +1514,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 210,
+          "line": 244,
           "column": 39
         }
       ]
@@ -1530,12 +1564,12 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 217,
+          "line": 251,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 223,
+          "line": 257,
           "column": 26
         }
       ]
@@ -1598,8 +1632,20 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 128,
+          "line": 161,
           "column": 66
+        }
+      ]
+    },
+    "410dbd907d401d30": {
+      "source": "自动发送",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 42,
+          "column": 101
         }
       ]
     },
@@ -1610,7 +1656,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 242,
+          "line": 276,
           "column": 52
         }
       ]
@@ -1779,6 +1825,21 @@
           "file": "features/settings/ProxySettingsCard.tsx",
           "line": 69,
           "column": 135
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 36,
+          "column": 99
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 42,
+          "column": 114
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 60,
+          "column": 108
         }
       ]
     },
@@ -1891,6 +1952,18 @@
         }
       ]
     },
+    "4cca8a4406aea952": {
+      "source": "需要确认",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 42,
+          "column": 89
+        }
+      ]
+    },
     "4d0680f9efaef147": {
       "source": "未读",
       "kind": "text",
@@ -1900,6 +1973,18 @@
           "file": "shell/AppLayout.tsx",
           "line": 86,
           "column": 67
+        }
+      ]
+    },
+    "4d18e3a6975846da": {
+      "source": "密钥只保存在本机，不会回传到设置页面。",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 46,
+          "column": 56
         }
       ]
     },
@@ -1992,6 +2077,18 @@
         }
       ]
     },
+    "527a1a37c2429953": {
+      "source": "BYOK 网页搜索设置已保存",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/SettingsPage.tsx",
+          "line": 146,
+          "column": 15
+        }
+      ]
+    },
     "5319e7374f78fb38": {
       "source": "已接管",
       "kind": "text",
@@ -2009,6 +2106,18 @@
         }
       ]
     },
+    "53ffc07d3f134cc8": {
+      "source": "关闭确认后，Agent 会直接把搜索词发送给 Exa。",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 39,
+          "column": 53
+        }
+      ]
+    },
     "54644705e9c61009": {
       "source": "端口设置",
       "kind": "text",
@@ -2016,7 +2125,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 149,
+          "line": 182,
           "column": 26
         }
       ]
@@ -2098,7 +2207,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 203,
+          "line": 237,
           "column": 78
         }
       ]
@@ -2122,7 +2231,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 207,
+          "line": 241,
           "column": 21
         }
       ]
@@ -2382,7 +2491,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 503,
+          "line": 516,
           "column": 43
         }
       ]
@@ -2497,7 +2606,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 88,
+          "line": 95,
           "column": 55
         }
       ]
@@ -2523,6 +2632,18 @@
           "file": "shell/AppLayout.tsx",
           "line": 52,
           "column": 47
+        }
+      ]
+    },
+    "69b227cae6411d94": {
+      "source": "关闭后 BYOK 模型不再获得网页搜索工具。",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 33,
+          "column": 58
         }
       ]
     },
@@ -2661,7 +2782,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 139,
+          "line": 172,
           "column": 16
         }
       ]
@@ -2685,8 +2806,20 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 234,
+          "line": 268,
           "column": 26
+        }
+      ]
+    },
+    "78e69e6004cdc54a": {
+      "source": "Exa API 密钥",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 46,
+          "column": 23
         }
       ]
     },
@@ -2709,7 +2842,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 498,
+          "line": 511,
           "column": 43
         }
       ]
@@ -2733,7 +2866,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 267,
+          "line": 301,
           "column": 23
         }
       ]
@@ -2841,6 +2974,11 @@
           "file": "features/plugins/PluginManagementPage.tsx",
           "line": 216,
           "column": 36
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 60,
+          "column": 96
         }
       ]
     },
@@ -2851,7 +2989,7 @@
       "refs": [
         {
           "file": "shared/api.ts",
-          "line": 442,
+          "line": 455,
           "column": 21
         }
       ]
@@ -3031,6 +3169,18 @@
         }
       ]
     },
+    "89461376cb23dd66": {
+      "source": "保存后清除",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 59,
+          "column": 35
+        }
+      ]
+    },
     "89a101b809be7cfc": {
       "source": "系统会原样使用此地址，不追加或修改请求路径。",
       "kind": "text",
@@ -3096,7 +3246,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 206,
+          "line": 240,
           "column": 22
         }
       ]
@@ -3199,7 +3349,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 131,
+          "line": 164,
           "column": 7
         }
       ]
@@ -3437,6 +3587,18 @@
         }
       ]
     },
+    "9eb591385b2eb8b1": {
+      "source": "搜索服务",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 44,
+          "column": 44
+        }
+      ]
+    },
     "9ebeab8c4532d671": {
       "source": "{name} 账号管理",
       "kind": "template",
@@ -3501,8 +3663,25 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 214,
+          "line": 248,
           "column": 26
+        }
+      ]
+    },
+    "9f95e19ebc85259a": {
+      "source": "启用 WebSearch",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 33,
+          "column": 23
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 35,
+          "column": 70
         }
       ]
     },
@@ -3537,7 +3716,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 51,
+          "line": 58,
           "column": 34
         }
       ]
@@ -3565,6 +3744,18 @@
           "file": "shared/ui/FormControls.tsx",
           "line": 15,
           "column": 81
+        }
+      ]
+    },
+    "a16e690d61897dc5": {
+      "source": "BYOK 网页搜索",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 29,
+          "column": 29
         }
       ]
     },
@@ -3629,8 +3820,13 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 152,
+          "line": 185,
           "column": 133
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 22,
+          "column": 31
         },
         {
           "file": "shared/ui/Modal.tsx",
@@ -4114,7 +4310,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 128,
+          "line": 161,
           "column": 45
         }
       ]
@@ -4140,7 +4336,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 250,
+          "line": 284,
           "column": 22
         }
       ]
@@ -4278,7 +4474,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 242,
+          "line": 276,
           "column": 40
         }
       ]
@@ -4494,6 +4690,18 @@
         }
       ]
     },
+    "c9e59f9f17542fae": {
+      "source": "仅影响 BYOK 和插件模型；Cursor 官方模型继续使用 Cursor 的网页搜索。",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 31,
+          "column": 42
+        }
+      ]
+    },
     "cb2f1709f983d2f4": {
       "source": "模型名称",
       "kind": "text",
@@ -4552,12 +4760,12 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 137,
+          "line": 170,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 143,
+          "line": 176,
           "column": 20
         }
       ]
@@ -4569,7 +4777,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 174,
+          "line": 207,
           "column": 21
         }
       ]
@@ -4605,7 +4813,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 130,
+          "line": 163,
           "column": 7
         }
       ]
@@ -4922,6 +5130,11 @@
           "file": "features/plugins/PluginManagementPage.tsx",
           "line": 216,
           "column": 25
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 60,
+          "column": 85
         }
       ]
     },
@@ -4973,7 +5186,7 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 286,
+          "line": 320,
           "column": 30
         },
         {
@@ -5009,6 +5222,11 @@
           "file": "features/settings/ProxySettingsCard.tsx",
           "line": 72,
           "column": 121
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 36,
+          "column": 76
         }
       ]
     },
@@ -5225,7 +5443,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 64,
+          "line": 71,
           "column": 17
         }
       ]
@@ -5300,6 +5518,23 @@
         }
       ]
     },
+    "e919bbe163752116": {
+      "source": "搜索前需要确认",
+      "kind": "text",
+      "placeholders": [],
+      "refs": [
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 39,
+          "column": 23
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 41,
+          "column": 101
+        }
+      ]
+    },
     "e9d8d890d33584e8": {
       "source": "没有可用的重置卡。",
       "kind": "text",
@@ -5319,7 +5554,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 134,
+          "line": 167,
           "column": 26
         }
       ]
@@ -5432,7 +5667,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 193,
+          "line": 226,
           "column": 16
         }
       ]
@@ -5564,7 +5799,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 218,
+          "line": 252,
           "column": 21
         }
       ]
@@ -5602,6 +5837,11 @@
           "file": "features/settings/ProxySettingsCard.tsx",
           "line": 72,
           "column": 132
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 36,
+          "column": 87
         }
       ]
     },
@@ -5650,7 +5890,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 161,
+          "line": 194,
           "column": 21
         }
       ]
@@ -5836,7 +6076,7 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 277,
+          "line": 311,
           "column": 38
         }
       ]
@@ -5858,8 +6098,13 @@
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 152,
+          "line": 185,
           "column": 121
+        },
+        {
+          "file": "features/settings/WebSearchSettingsCard.tsx",
+          "line": 22,
+          "column": 19
         }
       ]
     },
@@ -5882,17 +6127,17 @@
       "refs": [
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 59,
+          "line": 66,
           "column": 46
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 173,
+          "line": 206,
           "column": 22
         },
         {
           "file": "features/settings/SettingsPage.tsx",
-          "line": 188,
+          "line": 221,
           "column": 58
         }
       ]

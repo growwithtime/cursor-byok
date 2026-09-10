@@ -9,7 +9,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::store::{
     CommitPromptLocale, CommitSettings, DesktopSettings, PortSettings, ProxySettings,
-    ProxySettingsInput, StatisticsStorage, StatisticsStorageScope,
+    ProxySettingsInput, StatisticsStorage, StatisticsStorageScope, WebSearchSettings,
+    WebSearchSettingsInput,
 };
 
 use super::{ControlService, ObservabilitySettings};
@@ -67,6 +68,19 @@ pub async fn update_proxy(
     Json(settings): Json<ProxySettingsInput>,
 ) -> Result<Json<ProxySettings>> {
     Ok(Json(service.set_proxy_settings(settings).await?))
+}
+
+pub async fn get_web_search(
+    State(service): State<ControlService>,
+) -> Result<Json<WebSearchSettings>> {
+    Ok(Json(service.web_search_settings().await?))
+}
+
+pub async fn update_web_search(
+    State(service): State<ControlService>,
+    Json(settings): Json<WebSearchSettingsInput>,
+) -> Result<Json<WebSearchSettings>> {
+    Ok(Json(service.set_web_search_settings(settings).await?))
 }
 
 pub async fn get_desktop(State(service): State<ControlService>) -> Result<Json<DesktopSettings>> {

@@ -7,6 +7,7 @@ import type {
   OverviewTokenUsageBucket,
   ProxySettings,
   StatisticsStorage,
+  WebSearchSettings,
 } from "../shared/api";
 
 const API_ROOT = "/__byok-api__/api";
@@ -92,6 +93,11 @@ let proxySettings: ProxySettings = {
   username: "",
   has_password: false,
 };
+let webSearchSettings: WebSearchSettings = {
+  enabled: true,
+  require_confirmation: false,
+  has_api_key: false,
+};
 let storage: StatisticsStorage = { bytes: 26_004_480, call_count: calls.length, trace_count: calls.length };
 
 export function installDemoApi() {
@@ -158,6 +164,16 @@ export function installDemoApi() {
       const next = body as Partial<ProxySettings>;
       proxySettings = { ...proxySettings, ...next, has_password: Boolean(next.has_password) };
       return json(proxySettings);
+    }
+    if (path === "/settings/web-search" && method === "GET") return json(webSearchSettings);
+    if (path === "/settings/web-search") {
+      const next = body as { enabled?: boolean; require_confirmation?: boolean; api_key?: string; clear_api_key?: boolean } | null;
+      webSearchSettings = {
+        enabled: next?.enabled ?? webSearchSettings.enabled,
+        require_confirmation: next?.require_confirmation ?? webSearchSettings.require_confirmation,
+        has_api_key: next?.clear_api_key ? false : Boolean(next?.api_key) || webSearchSettings.has_api_key,
+      };
+      return json(webSearchSettings);
     }
     if (path === "/settings/desktop" && method === "GET") return json({ silent_start: false, show_dock_icon: true });
     if (path === "/settings/desktop") return json(body);
